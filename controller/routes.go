@@ -13,4 +13,7 @@ func InitializeRoutes(e *echo.Echo) {
 		return c.String(http.StatusOK, "Hello, World from github actions!")
 	})
 
+	e.GET("/api/projects", ProjectsHandler)
+	e.GET("/api/projects/:id", ProjectHandler)
+	e.POST("/api/projects/create", CreateProjectHandler)
 }

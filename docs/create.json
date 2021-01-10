@@ -1,0 +1,7 @@
+{
+  "name" : "fake name",
+  "owener_id" : "f6b417dc-31bc-427c-9791-09b571a7c23d",
+  "state" : "planned",
+  "progress" : 100,
+  "participants_ids" : ["f6b417dc-31bc-427c-9791-09b571a7c23d","da99f96d-588c-4a8b-9403-421e6875711e"]
+}

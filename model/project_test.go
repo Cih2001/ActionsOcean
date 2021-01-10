@@ -41,11 +41,11 @@ func TestProject(t *testing.T) {
 	}
 
 	project := ProjectModel{
-		Name:           "interstellar",
-		OwenerID:       "fake id",
-		State:          "fake state",
-		Progress:       100,
-		ParticipantsID: []string{"fake id1"},
+		Name:            "interstellar",
+		OwenerID:        "fake id",
+		State:           "fake state",
+		Progress:        100,
+		ParticipantsIDs: []string{"fake id1"},
 	}
 	id, err := project.Create()
 	if err != nil {

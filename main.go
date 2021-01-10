@@ -3,12 +3,23 @@ package main
 import (
 	"Cih2001/ActionsOcean/controller"
 	"Cih2001/ActionsOcean/model"
+	"crypto/tls"
 	"fmt"
+	"net/http"
 	"os"
 
+	"github.com/go-playground/validator"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 )
+
+type CustomValidator struct {
+	validator *validator.Validate
+}
+
+func (cv *CustomValidator) Validate(i interface{}) error {
+	return cv.validator.Struct(i)
+}
 
 func main() {
 	// check arguments
@@ -29,11 +40,20 @@ func main() {
 	// start the server
 	// we use labstack echo framework.
 	e := echo.New()
+	e.Validator = &CustomValidator{validator: validator.New()}
 
 	controller.InitializeRoutes(e)
 
 	// print logs on stdout
 	e.Use(middleware.Logger())
+
+	// disabling ssl certificates check. we are running this inside a base container with
+	// no cert DB.
+	// not disabling ssl certificates, our requests to employee api server will fail with err:
+	// x509: certificate signed by unknown authority
+	// CAUTION:Disabling security checks is dangerous and should be avoided
+	// TODO: fix by using a modified container or adding certs manually.
+	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 
 	if err := e.Start(serverAddress); err != nil {
 		fmt.Printf("Error listening on %s with error:%s\n", serverAddress, err.Error())

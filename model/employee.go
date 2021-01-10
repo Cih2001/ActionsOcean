@@ -51,7 +51,7 @@ func GetAllEmployees() (result []EmployeeModel, err error) {
 }
 
 // Find finds an employee by its ID.
-func (emp *EmployeeModel) Find(id string) error {
+func (model *EmployeeModel) Find(id string) error {
 	if id == "" {
 		return ErrEmptyID
 	}
@@ -68,7 +68,7 @@ func (emp *EmployeeModel) Find(id string) error {
 		if err != nil {
 			return err
 		}
-		err = json.Unmarshal(body, emp)
+		err = json.Unmarshal(body, model)
 	case 404:
 		err = ErrDoesNotExist
 	case 500:

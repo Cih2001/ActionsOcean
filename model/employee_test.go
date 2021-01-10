@@ -21,6 +21,7 @@ func TestEmployeeFind(t *testing.T) {
 	if err != nil && err != ErrDoesNotExist {
 		t.Fatal(err)
 	}
+	t.Log(employee)
 }
 
 func TestEmployeesFind(t *testing.T) {
