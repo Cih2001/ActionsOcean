@@ -1,0 +1,26 @@
+version: '3.3'
+
+services:
+  web:
+    build: .
+    environment:
+      DBUSERNAME: ${MONGO_USERNAME}
+      DBPASSWORD: ${MONGO_PASSWORD}
+    ports:
+      - "1234:1234"
+
+  mongodb:
+    image: mongo
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    command: mongod --auth
+    healthcheck: 
+      test: ["CMD", "curl", "-f", "http://localhost:27017"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      # logging:
+      # driver: none # Disable mongo logs.
