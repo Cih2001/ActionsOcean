@@ -9,11 +9,29 @@ import (
 )
 
 func ProjectHandler(c echo.Context) error {
-	return c.JSON(http.StatusInternalServerError, map[string]string{"err": "Not implemented"})
+	projectID := c.Param("id")
+	if projectID == "" {
+		return c.JSON(http.StatusBadRequest, map[string]string{"err": "null project id"})
+	}
+
+	project := new(model.ProjectModel)
+	if err := project.Find(projectID); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"err": err.Error()})
+	}
+
+	// this is done. now we return the response.
+	// however, we can find owener and participant names and include that in the result.
+	// for this simple project, we just leave this idea behind.
+	return c.JSON(http.StatusOK, project)
 }
 
 func ProjectsHandler(c echo.Context) error {
-	return c.JSON(http.StatusInternalServerError, map[string]string{"err": "Not implemented"})
+	results, err := model.GetAllProjects()
+	fmt.Println("we are here")
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"err": err.Error()})
+	}
+	return c.JSON(http.StatusInternalServerError, results)
 }
 
 type CreateProjectRequest struct {

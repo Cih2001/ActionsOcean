@@ -8,12 +8,12 @@ import (
 )
 
 type ProjectModel struct {
-	ID              primitive.ObjectID `bson:"_id, omitempty"`
-	Name            string
-	OwenerID        string
-	State           string
-	Progress        uint
-	ParticipantsIDs []string
+	ID              primitive.ObjectID `json:"id" bson:"_id, omitempty"`
+	Name            string             `json:"name"`
+	OwenerID        string             `json:"owener_id"`
+	State           string             `json:"state"`
+	Progress        uint               `json:"progress"`
+	ParticipantsIDs []string           `json:"participants_ids"`
 }
 
 const (
@@ -32,6 +32,18 @@ func (model *ProjectModel) Find(id string) error {
 		return err
 	}
 	return nil
+}
+
+func GetAllProjects() ([]ProjectModel, error) {
+	result := []ProjectModel{}
+	collection := mongoClient.Database(dbname).Collection(ProjectsCollectionName)
+	cur, err := collection.Find(context.Background(), bson.M{})
+	if err != nil {
+		return result, err
+	}
+
+	err = cur.All(context.Background(), &result)
+	return result, err
 }
 
 // Create creates a new project and returns its id
