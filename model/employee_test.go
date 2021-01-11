@@ -45,6 +45,10 @@ func TestEmployeesFind(t *testing.T) {
 		t.Fatalf("some ids are not retrieved")
 	}
 
+	// for _, r := range result {
+	// 	fmt.Println(r.FirstName, r.LastName)
+	// }
+
 	employeeIDs = []string{
 		"ae18aa6f-49f0-443f-b7ff-20aae3729040",
 		"ae18aa6f-49f0-443f-b7ff-20aae3729045",
@@ -57,6 +61,7 @@ func TestEmployeesFind(t *testing.T) {
 		"e1f1dd6d-af29-430c-b74f-c346eb66ef7a",
 	}
 	_, err = FindEmployees(employeeIDs)
+	// fmt.Println(err)
 	if err == nil {
 		t.Fatal("expected an error")
 	}

@@ -108,24 +108,14 @@ func FindEmployees(ids []string) (result []EmployeeModel, err error) {
 		}(id)
 	}
 
-	// we use isDone channel to break immediately if of response was invalid.
-	isDone := make(chan error, 1) // 1 to make this non blocking
-
-	counter := 0
-	for {
-		select {
-		case err = <-isDone:
-			return
-		case response := <-channel:
-			counter++
-			if response.Err != nil {
-				isDone <- errors.New("error finding employee " + response.ID)
-			} else {
-				result = append(result, response.Employee)
-				if counter == len(ids) {
-					isDone <- nil
-				}
-			}
+	for i := 0; i < len(ids); i++ {
+		response := <-channel
+		if response.Err != nil {
+			err = errors.New("error finding employee " + response.ID)
+			break
 		}
+		result = append(result, response.Employee)
 	}
+
+	return
 }
