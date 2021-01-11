@@ -51,7 +51,7 @@ func main() {
 	// no cert DB.
 	// not disabling ssl certificates, our requests to employee api server will fail with err:
 	// x509: certificate signed by unknown authority
-	// CAUTION:Disabling security checks is dangerous and should be avoided
+	// CAUTION:Disabling security checks is dangerous and should be avoided.
 	// TODO: fix by using a modified container or adding certs manually.
 	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 

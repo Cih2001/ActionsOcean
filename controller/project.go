@@ -27,7 +27,6 @@ func ProjectHandler(c echo.Context) error {
 
 func ProjectsHandler(c echo.Context) error {
 	results, err := model.GetAllProjects()
-	fmt.Println("we are here")
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{"err": err.Error()})
 	}
